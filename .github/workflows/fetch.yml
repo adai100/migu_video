@@ -10,7 +10,7 @@ jobs:
         steps:
         - name: Clone source code
             run: |
-            - git clone https://dream-deve:${TOKEN}@gitee.com/dream-deve/migu_video.git
+            - git clone https://github.com/adai100/migu_video.git
             - '# git clone https://develop202:${GITHUB_TOKEN}@github.com/develop202/migu_video.git'
             - cd migu_video
             - '# 设置NPM源，提升安装速度'
