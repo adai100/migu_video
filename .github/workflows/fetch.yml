@@ -23,7 +23,6 @@ jobs:
 
       - name: Commit and push changes
         run: |
-          git config user.name "GitHub Actions"
           git clone https://github.com/adai100/migu_video.git
           cd migu_video
           '# 设置NPM源，提升安装速度'
