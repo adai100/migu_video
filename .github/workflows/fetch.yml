@@ -1,12 +1,8 @@
-version: '1.0.0'
 name: fetch
-displayName: fetch
-triggers:
-  trigger: auto
-  pr:
-    branches:
-      precise:
-        - main
+name: CheckAliShare
+
+on:
+  push:
   schedule:
     - cron: '* 0 */3 * * ? *'
 variables:
