@@ -3,12 +3,6 @@ on:
   push:
   schedule:
     - cron: '* 0 */3 * * ? *'
-variables:
-  global:
-    - GITHUB_TOKEN
-    - TOKEN
-    - MIGU_TOKEN
-    - USERID
 stages:
   - name: fetchurl
     displayName: fetchurl
