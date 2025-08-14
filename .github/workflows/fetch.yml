@@ -1,6 +1,4 @@
 name: fetch
-name: CheckAliShare
-
 on:
   push:
   schedule:
