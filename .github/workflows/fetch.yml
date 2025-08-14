@@ -25,6 +25,7 @@ jobs:
         run: |
           git clone https://github.com/adai100/migu_video.git
           cd migu_video
+          pwd
           '# 设置NPM源，提升安装速度'
           npm config set registry https://registry.npmmirror.com
           npm install && node fetchURLByAndroidV2.js
