@@ -1,28 +1,41 @@
-name: migu
+name: Migu Video Fetch
+
 on:
   push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
   schedule:
-    - cron: '0 */3 * * *'
+    - cron: '0 */3 * * *'  # 每3小时运行一次（UTC时间）
+
 jobs:
-    build:
-        runs-on: ubuntu-20.04
-        if: github.event.repository.owner.id == github.event.sender.id
-        steps:
-        - name: Clone source code
-            run: |
-                git clone https://github.com/adai100/migu_video.git
-                '# git clone https://develop202:${GITHUB_TOKEN}@github.com/develop202/migu_video.git'
-                cd migu_video
-                '# 设置NPM源，提升安装速度'
-                npm config set registry https://registry.npmmirror.com
-                '# 执行编译命令 '
-                '# npm install && node fetchURLByWasm.js'
-                '# npm install && node fetchURLByAndroid.js'
-                npm install && node fetchURLByAndroidV2.js
-                git config user.name "Gitee流水线"
-                git config user.email "actions@githee.com"
-                git add .
-                '# gitee流水线提交 '
-                git diff --quiet && git diff --staged --quiet || git commit -m "Update by Gitee流水线"
-                '# git push -f https://dream-deve:${TOKEN}@gitee.com/dream-deve/migu_video.git main:main'
-                git push
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120  # 匹配原2小时超时设置
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '21.5.0'
+
+      - name: Commit and push changes
+        run: |
+          git config user.name "GitHub Actions"
+          git clone https://github.com/adai100/migu_video.git
+          cd migu_video
+          '# 设置NPM源，提升安装速度'
+          npm config set registry https://registry.npmmirror.com
+          npm install && node fetchURLByAndroidV2.js
+          git config user.name "Gitee流水线"
+          git config user.email "actions@githee.com"
+          git add .
+          '# gitee流水线提交 '
+          git diff --quiet && git diff --staged --quiet || git commit -m "Update by Gitee流水线"
+          '# git push -f https://dream-deve:${TOKEN}@gitee.com/dream-deve/migu_video.git main:main'
+          git push
