@@ -1,19 +1,15 @@
-name: fetch
+name: migu
 on:
   push:
   schedule:
-    - cron: '* 0 */3 * * ? *'
-stages:
-  - name: fetchurl
-    displayName: fetchurl
-    strategy: naturally
-    trigger: auto
+    - cron: '0 */3 * * *'
+
+build:
+    runs-on: ubuntu-20.04
+    if: github.event.repository.owner.id == github.event.sender.id
     steps:
-      - step: build@nodejs
-        name: fetchurl
-        displayName: fetchurl
-        nodeVersion: 21.5.0
-        commands:
+      - name: Clone source code
+        run: |
           - git clone https://dream-deve:${TOKEN}@gitee.com/dream-deve/migu_video.git
           - '# git clone https://develop202:${GITHUB_TOKEN}@github.com/develop202/migu_video.git'
           - cd migu_video
@@ -30,6 +26,3 @@ stages:
           - git diff --quiet && git diff --staged --quiet || git commit -m "Update by Gitee流水线"
           - '# git push -f https://dream-deve:${TOKEN}@gitee.com/dream-deve/migu_video.git main:main'
           - git push
-        strategy:
-          retry: '0'
-          timeout: 2
